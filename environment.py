@@ -1,4 +1,4 @@
-import tkinter as tk
+import tkinter as tk  ## GUI toolkit
 from tkinter import Button
 import time
 import numpy as np
@@ -204,7 +204,6 @@ class GraphicDisplay(tk.Tk):
         self.agent.policy_improvement()
         self.draw_from_policy(self.agent.policy_table)
 
-
 class Env:
     def __init__(self):
         self.transition_probability = TRANSITION_PROB
@@ -222,7 +221,7 @@ class Env:
                 state = [x, y]
                 self.all_state.append(state)
 
-    def get_reward(self, state, action):
+    def get_reward(self, state, action): # 다음 state의 reward를 얻음
         next_state = self.state_after_action(state, action)
         return self.reward[next_state[0]][next_state[1]]
 

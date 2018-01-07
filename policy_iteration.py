@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
-from environment import GraphicDisplay, Env
+from policy_iteration_environment import GraphicDisplay, Env
 
 class PolicyIteration:
     def __init__(self, env):

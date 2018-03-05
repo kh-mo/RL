@@ -1,8 +1,8 @@
+import os
 import time
 import numpy as np
 import tkinter as tk
 from PIL import ImageTk, Image
-import os
 
 PhotoImage = ImageTk.PhotoImage
 UNIT = 50  # 픽셀 수
@@ -10,7 +10,6 @@ HEIGHT = 5  # 그리드 세로
 WIDTH = 5  # 그리드 가로
 
 np.random.seed(1)
-
 
 class Env(tk.Tk):
     def __init__(self):
@@ -32,9 +31,7 @@ class Env(tk.Tk):
         self.set_reward([4, 4], 1)
 
     def _build_canvas(self):
-        canvas = tk.Canvas(self, bg='white',
-                           height=HEIGHT * UNIT,
-                           width=WIDTH * UNIT)
+        canvas = tk.Canvas(self, bg='white', height=HEIGHT * UNIT, width=WIDTH * UNIT)
         # 그리드 생성
         for c in range(0, WIDTH * UNIT, UNIT):  # 0~400 by 80
             x0, y0, x1, y1 = c, 0, c, HEIGHT * UNIT
@@ -54,12 +51,9 @@ class Env(tk.Tk):
         return canvas
 
     def load_images(self):
-        rectangle = PhotoImage(
-            Image.open(os.getcwd() + "/img/rectangle.png").resize((30, 30)))
-        triangle = PhotoImage(
-            Image.open(os.getcwd() + "/img/triangle.png").resize((30, 30)))
-        circle = PhotoImage(
-            Image.open(os.getcwd() + "/img/circle.png").resize((30, 30)))
+        rectangle = PhotoImage(Image.open(os.getcwd() + "/img/rectangle.png").resize((30, 30)))
+        triangle = PhotoImage(Image.open(os.getcwd() + "/img/triangle.png").resize((30, 30)))
+        circle = PhotoImage(Image.open(os.getcwd() + "/img/circle.png").resize((30, 30)))
 
         return rectangle, triangle, circle
 
@@ -84,19 +78,14 @@ class Env(tk.Tk):
         temp = {}
         if reward > 0:
             temp['reward'] = reward
-            temp['figure'] = self.canvas.create_image((UNIT * x) + UNIT / 2,
-                                                       (UNIT * y) + UNIT / 2,
-                                                       image=self.shapes[2])
+            temp['figure'] = self.canvas.create_image((UNIT * x) + UNIT / 2, (UNIT * y) + UNIT / 2, image=self.shapes[2])
 
             self.goal.append(temp['figure'])
-
 
         elif reward < 0:
             temp['direction'] = -1
             temp['reward'] = reward
-            temp['figure'] = self.canvas.create_image((UNIT * x) + UNIT / 2,
-                                                      (UNIT * y) + UNIT / 2,
-                                                      image=self.shapes[1])
+            temp['figure'] = self.canvas.create_image((UNIT * x) + UNIT / 2, (UNIT * y) + UNIT / 2, image=self.shapes[1])
 
         temp['coords'] = self.canvas.coords(temp['figure'])
         temp['state'] = state

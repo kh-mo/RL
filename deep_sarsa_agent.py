@@ -1,3 +1,4 @@
+import os
 import copy
 import pylab
 import random
@@ -6,10 +7,8 @@ from deep_sarsa_environment import Env
 from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.models import Sequential
-import os
 
 EPISODES = 1000
-
 
 # 그리드월드 예제에서의 딥살사 에이전트
 class DeepSARSAgent:
@@ -64,8 +63,7 @@ class DeepSARSAgent:
         if done:
             target[action] = reward
         else:
-            target[action] = (reward + self.discount_factor *
-                              self.model.predict(next_state)[0][next_action])
+            target[action] = (reward + self.discount_factor * self.model.predict(next_state)[0][next_action])
 
         # 출력 값 reshape
         target = np.reshape(target, [1, 5])
@@ -98,8 +96,7 @@ if __name__ == "__main__":
             next_state = np.reshape(next_state, [1, 15])
             next_action = agent.get_action(next_state)
             # 샘플로 모델 학습
-            agent.train_model(state, action, reward, next_state, next_action,
-                              done)
+            agent.train_model(state, action, reward, next_state, next_action, done)
             state = next_state
             score += reward
 
@@ -111,8 +108,7 @@ if __name__ == "__main__":
                 episodes.append(e)
                 pylab.plot(episodes, scores, 'b')
                 pylab.savefig(os.getcwd() + "/save_graph/deep_sarsa_.png")
-                print("episode:", e, "  score:", score, "global_step",
-                      global_step, "  epsilon:", agent.epsilon)
+                print("episode:", e, "  score:", score, "global_step", global_step, "  epsilon:", agent.epsilon)
 
         # 100 에피소드마다 모델 저장
         if e % 100 == 0:

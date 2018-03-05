@@ -32,11 +32,12 @@ class Env(tk.Tk):
 
     def _build_canvas(self):
         canvas = tk.Canvas(self, bg='white', height=HEIGHT * UNIT, width=WIDTH * UNIT)
+        # canvas size 0~250
         # 그리드 생성
-        for c in range(0, WIDTH * UNIT, UNIT):  # 0~400 by 80
+        for c in range(0, WIDTH * UNIT, UNIT):  # 0~250 by 50 (0, 50, 100, 150, 200)
             x0, y0, x1, y1 = c, 0, c, HEIGHT * UNIT
             canvas.create_line(x0, y0, x1, y1)
-        for r in range(0, HEIGHT * UNIT, UNIT):  # 0~400 by 80
+        for r in range(0, HEIGHT * UNIT, UNIT):  # 0~250 by 50 (0, 50, 100, 150, 200)
             x0, y0, x1, y1 = 0, r, HEIGHT * UNIT, r
             canvas.create_line(x0, y0, x1, y1)
 

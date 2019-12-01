@@ -16,6 +16,7 @@ class environment:
             next_state = self.check_boundary([state[0], state[1]-1])
         elif action == 3:  # 우
             next_state = self.check_boundary([state[0], state[1]+1])
+        next_state = (next_state[0], next_state[1])
 
         # 보상 함수
         if next_state == (2,2):
@@ -36,7 +37,7 @@ class environment:
                     if state[1] > self.height - 1 else state[1])
         return state
 
-class q_learning_agent:
+class QLearningAgent:
     def __init__(self):
         self.actions = [0,1,2,3] #상하좌우
         self.epsilon = 0.1
@@ -67,27 +68,38 @@ class q_learning_agent:
     def learn(self, state, action, reward, n_state):
         current_q = self.q_table[state][action]
         n_state_q = max(self.q_table[n_state])
-        current_q += self.learning_rate * (reward + self.discount_factor * n_state_q - current_q)
+        new_q = current_q + self.learning_rate * (reward + self.discount_factor * n_state_q - current_q)
+        self.q_table[state][action] = new_q
 
 if __name__ == "__main__":
     env = environment()
-    agent = q_learning_agent()
+    agent = QLearningAgent()
 
     for episode in range(200):
         print(episode)
+        # 게임 환경과 상태를 초기화
+        # state = env.reset()
         state = (0,0)
-        # 현재 상태에 대한 행동을 선택
-        action = agent.get_action(str(state))
 
         while True:
+            # 환경 보여주기
+            # env.render()
+
+            # 현재 상태에 대한 행동을 선택
+            action = agent.get_action(str(state))
+
             # 행동을 위한 후 다음상태 보상 에피소드의 종료 여부를 받아옴
             next_state, reward, done = env.step(state, action)
-            # 다음 상태에서의 다음 행동 선택
 
-            # <s,a,r,s'>로 큐함수를 업데이트
+            # <s,a,r,s',a'>로 큐함수를 업데이트
             agent.learn(str(state), action, reward, str(next_state))
 
             state = next_state
 
+            # 모든 큐함수를 화면에 표시
+            # env.print_value_all(agent.q_table)
+
             if done:
                 break
+
+# agent.q_table

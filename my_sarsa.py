@@ -16,6 +16,7 @@ class environment:
             next_state = self.check_boundary([state[0], state[1]-1])
         elif action == 3:  # 우
             next_state = self.check_boundary([state[0], state[1]+1])
+        next_state = (next_state[0], next_state[1])
 
         # 보상 함수
         if next_state == (2,2):
@@ -67,7 +68,8 @@ class SARSAgent:
     def learn(self, state, action, reward, n_state, n_action):
         current_q = self.q_table[state][action]
         n_state_q = self.q_table[n_state][n_action]
-        current_q += self.learning_rate * (reward + self.discount_factor * n_state_q - current_q)
+        new_q = current_q + self.learning_rate * (reward + self.discount_factor * n_state_q - current_q)
+        self.q_table[state][action] = new_q
 
 if __name__ == "__main__":
     env = environment()
@@ -95,7 +97,6 @@ if __name__ == "__main__":
 
             state = next_state
             action = next_action
-
 
             # 모든 큐함수를 화면에 표시
             # env.print_value_all(agent.q_table)
